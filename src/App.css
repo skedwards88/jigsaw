@@ -1,0 +1,32 @@
+/* General */
+html {
+  height: 100vh;
+  background-color: black;
+}
+
+body {
+  margin: 0;
+}
+
+.App {
+  --box-size: min(8vw, 5.5vh);
+  --default-font-size: calc(var(--box-size) * 0.9);
+  --dark-color: rgb(55 54 71);
+  --light-color: rgb(239 239 239);
+
+  background-color: var(--dark-color);
+  color: var(--light-color);
+  font-family: sans-serif;
+  font-size: var(--default-font-size);
+  display: grid;
+  min-height: 100vh;
+  min-width: 100vw;
+  overflow: scroll;
+}
+
+
+.piece {
+  position: absolute;
+  top: var(--x);
+  left: var(--y);
+}
