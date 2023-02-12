@@ -26,7 +26,18 @@ body {
 
 
 .piece {
-  position: absolute;
+  /* position: absolute;
   top: var(--x);
-  left: var(--y);
+  left: var(--y); */
+  height: 10vh;
+}
+
+#pool {
+  width: 90vw;
+  height: 50vh;
+  display: flex;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  flex-direction: row;
+  border: 5px solid gray;
 }
