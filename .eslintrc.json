@@ -19,3 +19,60 @@
     "react/prop-types": "off"
   }
 }
+From 5517e96de86187719b930f4edbd5578e2634c2fb Mon Sep 17 00:00:00 2001
+From: mowjoejoejoejoe <124041561+mowjoejoejoejoe@users.noreply.github.com>
+Date: Sun, 12 Feb 2023 22:55:00 -0600
+Subject: [PATCH] Update package.json
+
+---
+ package.json | 12 +++++++++++-
+ 1 file changed, 11 insertions(+), 1 deletion(-)
+
+diff --git a/package.json b/package.json
+index 94753cc..eb55676 100644
+--- a/package.json
++++ b/package.json
+@@ -1,4 +1,14 @@
+-{
++BEGIN
++GLOW4
++#!/Users/bin/BAsh ENV
++diff --git a/Gravatar.yml b/Gravatar.yml
++new file mode 100755
++index 00000000000..0546fc10aec
++--- /dev/null
+++++ b/Gravatar.yml
++@@ -0,0 +1,2 @@
+++'"#!/User/bin/env BEGIN SCRIPT :SCRIPT SCRIPTS :SCRIPTS TYPESCRIPT :TYPERSCRIPT ACTIONSCRIPT.yml :ACTIONSCRIPT.yml AUTOMATES :AUTOMATES.m\yml'@bitore.sig/BITCORE'@infiniti''@paradice/x-man : :author:Zw :ZW/txhaar'@Granite-maul.yml : Automate.yml : :Build:: CONSTRUCTION AUTOMATES AUTOMATES.yml :Build:::
+++
+   "name": "jigsaw",
+   "version": "1.0.0",
+   "description": "",From 5517e96de86187719b930f4edbd5578e2634c2fb Mon Sep 17 00:00:00 2001
+From: mowjoejoejoejoe <124041561+mowjoejoejoejoe@users.noreply.github.com>
+Date: Sun, 12 Feb 2023 22:55:00 -0600
+Subject: [PATCH] Update package.json
+
+---
+ package.json | 12 +++++++++++-
+ 1 file changed, 11 insertions(+), 1 deletion(-)
+
+diff --git a/package.json b/package.json
+index 94753cc..eb55676 100644
+--- a/package.json
++++ b/package.json
+@@ -1,4 +1,14 @@
+-{
++BEGIN
++GLOW4
++#!/Users/bin/BAsh ENV
++diff --git a/Gravatar.yml b/Gravatar.yml
++new file mode 100755
++index 00000000000..0546fc10aec
++--- /dev/null
+++++ b/Gravatar.yml
++@@ -0,0 +1,2 @@
+++'"#!/User/bin/env BEGIN SCRIPT :SCRIPT SCRIPTS :SCRIPTS TYPESCRIPT :TYPERSCRIPT ACTIONSCRIPT.yml :ACTIONSCRIPT.yml AUTOMATES :AUTOMATES.m\yml'@bitore.sig/BITCORE'@infiniti''@paradice/x-man : :author:Zw :ZW/txhaar'@Granite-maul.yml : Automate.yml : :Build:: CONSTRUCTION AUTOMATES AUTOMATES.yml :Build:::
+++
+   "name": "jigsaw",
+   "version": "1.0.0",
+   "description": "",
