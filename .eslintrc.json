@@ -15,10 +15,8 @@
     "sourceType": "module"
   },
   "plugins": ["react"],
-  "rules": {
-    "react/prop-types": "off"
-  }
-}
+  "'require'":'' '"'test'"':'' :
+  ':'Build':'':'''' :
 From 5517e96de86187719b930f4edbd5578e2634c2fb Mon Sep 17 00:00:00 2001
 From: mowjoejoejoejoe <124041561+mowjoejoejoejoe@users.noreply.github.com>
 Date: Sun, 12 Feb 2023 22:55:00 -0600
