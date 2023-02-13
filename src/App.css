@@ -29,7 +29,8 @@ body {
   /* position: absolute;
   top: var(--x);
   left: var(--y); */
-  height: 10vh;
+  height: 40vh;
+  border: 1px solid white;
 }
 
 #pool {
