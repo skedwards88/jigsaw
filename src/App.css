@@ -36,8 +36,9 @@ body {
   width: 90vw;
   height: 50vh;
   display: flex;
-  overflow-x: scroll;
-  overflow-y: hidden;
+  /* overflow-x: scroll; */
+  /* overflow-y: hidden; */
   flex-direction: row;
   border: 5px solid gray;
+  flex-wrap: wrap;
 }
