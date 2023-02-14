@@ -24,12 +24,11 @@ body {
   overflow: scroll;
 }
 
-
 .piece {
   /* position: absolute;
   top: var(--x);
   left: var(--y); */
-  height: 40vh;
+  height: 10vh;
   border: 1px solid white;
 }
 
