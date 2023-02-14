@@ -29,7 +29,6 @@ function CanvasPieceB({ index, edges }) {
       } else {
         // curved edge (consists of 6 bezier curves)
         for (const curve of edge) {
-          console.log(JSON.stringify(curve))
           context.lineTo(curve[0].x + borderOffset, curve[0].y + borderOffset);
           context.bezierCurveTo(
             curve[1].x + borderOffset,
@@ -60,24 +59,39 @@ function CanvasPieceB({ index, edges }) {
 }
 
 function getInverseCurvedEdge(curvedEdge, straightEdge) {
-  const bumpDirection = curvedEdge[0].x === curvedEdge[5].x ? "x" : "y";
-  const curvedBaseline = curvedEdge[0][bumpDirection];
+  const bumpDirection = curvedEdge[0][0].x === curvedEdge[curvedEdge.length - 1][3].x ? "x" : "y";
+  const curvedBaseline = curvedEdge[0][0][bumpDirection];
   const straightBaseline = straightEdge[0][bumpDirection];
 
   let inverseEdge = [];
-  for (let index = curvedEdge.length - 1; index >= 0; index--) {
-    let newPoint;
-    if (bumpDirection === "x") {
-      const x =
-        straightBaseline + (curvedEdge[index][bumpDirection] - curvedBaseline);
-      newPoint = { x: x, y: curvedEdge[index].y };
-    } else {
-      const y =
-        straightBaseline + (curvedEdge[index][bumpDirection] - curvedBaseline);
-      newPoint = { x: curvedEdge[index].x, y: y };
+  for (let segmentIndex = curvedEdge.length - 1; segmentIndex >= 0; segmentIndex--) {
+    let inverseSegment = []
+    let newPoint
+    for (let pointIndex = curvedEdge[segmentIndex].length - 1; pointIndex >= 0; pointIndex--) {
+      const inversePoint = straightBaseline + (curvedEdge[segmentIndex][pointIndex][bumpDirection] - curvedBaseline);
+      if (bumpDirection === "x") {
+        newPoint = { x: inversePoint, y: curvedEdge[segmentIndex][pointIndex].y };
+      } else {
+        newPoint = { x: curvedEdge[segmentIndex][pointIndex].x, y: inversePoint };
+      }
+      inverseSegment = [...inverseSegment, newPoint]
     }
-    inverseEdge = [...inverseEdge, newPoint];
+    inverseEdge = [...inverseEdge, inverseSegment]
   }
+
+  // for (let index = curvedEdge.length - 1; index >= 0; index--) {
+  //   let newPoint;
+  //   if (bumpDirection === "x") {
+  //     const x =
+  //       straightBaseline + (curvedEdge[index][bumpDirection] - curvedBaseline);
+  //     newPoint = { x: x, y: curvedEdge[index].y };
+  //   } else {
+  //     const y =
+  //       straightBaseline + (curvedEdge[index][bumpDirection] - curvedBaseline);
+  //     newPoint = { x: curvedEdge[index].x, y: y };
+  //   }
+  //   inverseEdge = [...inverseEdge, newPoint];
+  // }
   return inverseEdge;
 }
 
@@ -86,45 +100,66 @@ function getRandomBetween(min, max) {
 }
 
 function getCurvedEdge([{ x: x1, y: y1 }, { x: x2, y: y2 }]) {
-  let functionalX, functionalY;
+  let functionalX1, functionalY1, functionalX2, functionalY2;
   if (x1 === x2) {
     if (y1 < y2) {
       // left edge (vertical, top -> bottom)
-      functionalX = y1;
-      functionalY = x1;
+      functionalX1 = y1;
+      functionalY1 = x1;
+      functionalX2 = y2;
+      functionalY2 = x2;
     } else {
       // left edge (vertical, bottom -> top)
-      functionalX = y2;
-      functionalY = x2;
+      functionalX1 = y2;
+      functionalY1 = x2;
+      functionalX2 = y1;
+      functionalY2 = x1;
     }
   } else {
     if (x1 < x2) {
       // top edge (horizontal, left -> right)
-      functionalX = x1;
-      functionalY = y1;
+      functionalX1 = x1;
+      functionalY1 = y1;
+      functionalX2 = x2;
+      functionalY2 = y2;
     } else {
       // bottom edge (horizontal, right -> left)
-      functionalX = x2;
-      functionalY = y2;
+      functionalX1 = x2;
+      functionalY1 = y2;
+      functionalX2 = x1;
+      functionalY2 = y1;
     }
   }
 
+    // const cx=50
+    // const cy=50
+    // const s=100
+    // context.lineTo(cx + s * .34, cy);
+    // context.bezierCurveTo(cx + s * .5, cy, cx + s * .4, cy + s * -.15, cx + s * .4, cy + s * -.15);
+    // context.bezierCurveTo(cx + s * .3, cy + s * -.3, cx + s * .5, cy + s * -.3, cx + s * .5, cy + s * -.3);
+    // context.bezierCurveTo(cx + s * .7, cy + s * -.3, cx + s * .6, cy + s * -.15, cx + s * .6, cy + s * -.15);
+    // context.bezierCurveTo(cx + s * .5, cy, cx + s * .65, cy, cx + s * .65, cy);
+    // context.lineTo(cx + s, cy);
 
-  const curve1Point1x = functionalX; // based on straight line point 1
-  const curve1Point1y = functionalY;
-  const curve1Point2x = functionalX + 30;
-  const curve1Point2y = functionalY - 2;
-  const curve1Point3x = functionalX + 35;
-  const curve1Point3y = functionalY - 2;
-  const curve1Point4x = functionalX + 40;
-  const curve1Point4y = functionalY;
+    const neckBottomWidth = 10;
+    const neckTopWidth = 6;
+    const neckCenter = 50; // todo vary from 40-60
+
+  const curve1Point1x = functionalX1; // based on straight line point 1
+  const curve1Point1y = functionalY1;
+  const curve1Point2x = functionalX1 + neckCenter - (neckBottomWidth / 2) - 5;
+  const curve1Point2y = functionalY1 - 2;
+  const curve1Point3x = functionalX1 + neckCenter - (neckBottomWidth / 2) - 3;
+  const curve1Point3y = functionalY1 - 2;
+  const curve1Point4x = functionalX1 + neckCenter - (neckBottomWidth / 2);
+  const curve1Point4y = functionalY1;
 
   const curve2Point1x = curve1Point4x; // based on ending point of previous curve
   const curve2Point1y = curve1Point4y;
-  const curve2Point2x = curve1Point4x + 2
+  const curve2Point2x = curve1Point4x + 6
   const curve2Point2y = curve1Point4y + 5
-  const curve2Point3x = curve1Point4x + 2
-  const curve2Point3y = curve1Point4y + 7
+  const curve2Point3x = curve1Point4x + 6
+  const curve2Point3y = curve1Point4y + 8
   const curve2Point4x = curve1Point4x
   const curve2Point4y = curve1Point4y + 10;
 
@@ -148,10 +183,10 @@ function getCurvedEdge([{ x: x1, y: y1 }, { x: x2, y: y2 }]) {
 
   const curve5Point1x = curve4Point4x; // based on ending point of previous curve
   const curve5Point1y = curve4Point4y;
-  const curve5Point2x = curve4Point4x -2
+  const curve5Point2x = curve4Point4x -6
   const curve5Point2y = curve4Point4y -5
-  const curve5Point3x = curve4Point4x -2
-  const curve5Point3y = curve4Point4y -7
+  const curve5Point3x = curve4Point4x -6
+  const curve5Point3y = curve4Point4y -8
   const curve5Point4x = curve4Point4x
   const curve5Point4y = curve4Point4y - 10;
 
@@ -161,8 +196,8 @@ function getCurvedEdge([{ x: x1, y: y1 }, { x: x2, y: y2 }]) {
   const curve6Point2y = curve5Point4y - 2;
   const curve6Point3x = curve5Point4x + 35;
   const curve6Point3y = curve5Point4y - 2;
-  const curve6Point4x = curve5Point4x + 40;
-  const curve6Point4y = curve5Point4y;
+  const curve6Point4x = functionalX2;
+  const curve6Point4y = functionalY2;
 
   const curve = [
     [
@@ -203,61 +238,48 @@ function getCurvedEdge([{ x: x1, y: y1 }, { x: x2, y: y2 }]) {
     ],
   ];
 
-  console.log(JSON.stringify(curve))
- return curve
-
-  const end1x = functionalX + getRandomBetween(38, 42);
-  const end1y = functionalY + getRandomBetween(-5, 5);
-  const end2x = end1x + 2 + getRandomBetween(0, 20);
-  const end2y = functionalY+ getRandomBetween(-5, 5);
-  const control1x = functionalX + getRandomBetween(30, 50);
-  const control1y = functionalY + 20;
-  const control2x = control1x + getRandomBetween(5, 20);
-  const control2y = functionalY + 20;
-
   if (x1 === x2) {
     if (y1 < y2) {
-      // left edge (vertical, top -> bottom)
-      return [
-        { x: x1, y: y1 },
-        { x: end1y, y: end1x },
-        { x: control1y, y: control1x },
-        { x: control2y, y: control2x },
-        { x: end2y, y: end2x },
-        { x: x2, y: y2 },
-      ];
+      // right edge (vertical, top -> bottom)
+      // need to swap x/y
+      let reversedCurve = []
+      for (let segmentIndex = 0; segmentIndex < curve.length; segmentIndex++) {
+        let reversedSegment = []
+        for (let pointIndex = 0; pointIndex < curve[segmentIndex].length; pointIndex++) {
+          reversedSegment = [...reversedSegment, {"x": curve[segmentIndex][pointIndex].y, "y": curve[segmentIndex][pointIndex].x}]
+        }
+        reversedCurve = [...reversedCurve, reversedSegment]
+      }
+      return reversedCurve
     } else {
       // left edge (vertical, bottom -> top)
-      return [
-        { x: x1, y: y1 },
-        { x: end2y, y: end2x },
-        { x: control2y, y: control2x },
-        { x: control1y, y: control1x },
-        { x: end1y, y: end1x },
-        { x: x2, y: y2 },
-      ];
+      // need to swap x/y AND reverse
+      let reversedCurve = []
+      for (let segmentIndex = curve.length - 1; segmentIndex >= 0; segmentIndex--) {
+        let reversedSegment = []
+        for (let pointIndex = curve[segmentIndex].length - 1; pointIndex >= 0; pointIndex--) {
+          reversedSegment = [...reversedSegment, {"x": curve[segmentIndex][pointIndex].y, "y": curve[segmentIndex][pointIndex].x}]
+        }
+        reversedCurve = [...reversedCurve, reversedSegment]
+      }
+      return reversedCurve
     }
   } else {
     if (x1 < x2) {
       // top edge (horizontal, left -> right)
-      return [
-        { x: x1, y: y1 },
-        { x: end1x, y: end1y },
-        { x: control1x, y: control1y },
-        { x: control2x, y: control2y },
-        { x: end2x, y: end2y },
-        { x: x2, y: y2 },
-      ];
+      return curve
     } else {
       // bottom edge (horizontal, right -> left)
-      return [
-        { x: x1, y: y1 },
-        { x: end2x, y: end2y },
-        { x: control2x, y: control2y },
-        { x: control1x, y: control1y },
-        { x: end1x, y: end1y },
-        { x: x2, y: y2 },
-      ];
+      // need to reverse
+      let reversedCurve = []
+      for (let segmentIndex = curve.length - 1; segmentIndex >= 0; segmentIndex--) {
+        let reversedSegment = []
+        for (let pointIndex = curve[segmentIndex].length - 1; pointIndex >= 0; pointIndex--) {
+          reversedSegment = [...reversedSegment, curve[segmentIndex][pointIndex]]
+        }
+        reversedCurve = [...reversedCurve, reversedSegment]
+      }
+      return reversedCurve
     }
   }
 }
@@ -311,21 +333,21 @@ export default function App() {
     { x: 0, y: 100 },
     { x: 0, y: 0 },
   ];
-
+  
   const edges = [
     // top,
-    getCurvedEdge(top),
-    // getInverseCurvedEdge(getCurvedEdge(bottom),top),
+    // getCurvedEdge(top),
+    getInverseCurvedEdge(getCurvedEdge(bottom),top),
 
-    right,
-    // getCurvedEdge(right),
+    // right,
+    getCurvedEdge(right),
 
-    bottom,
-    // getCurvedEdge(bottom),
+    // bottom,
+    getCurvedEdge(bottom),
 
-    left,
+    // left,
     // getCurvedEdge(left),
-    // getInverseCurvedEdge(getCurvedEdge(right), left)
+    getInverseCurvedEdge(getCurvedEdge(right), left)
   ];
 
   return (
