@@ -29,7 +29,7 @@ body {
   top: var(--x);
   left: var(--y); */
   height: 10vh;
-  border: 1px solid white;
+  /* border: 1px solid white; */
 }
 
 #pool {

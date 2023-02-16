@@ -1,7 +1,7 @@
 import React, { useRef, useLayoutEffect } from "react";
 require("./monkeys.png");
 
-function CanvasPieceB({ index, edges }) {
+function CanvasPieceB({ index, edges, rowIndex, columnIndex, numPiecesRoot }) {
   const canvasRef = useRef(null);
 
   useLayoutEffect(() => {
@@ -11,9 +11,24 @@ function CanvasPieceB({ index, edges }) {
     const image = new Image();
     image.src = require("./monkeys.png");
     image.onload = () => {
+      // console.log(image.width)
+      const imageWidth = image.width;
+      const sectionWidth = imageWidth / numPiecesRoot;
+      console.log(sectionWidth)
+      // console.log(columnIndex * sectionWidth);
       // sourceTopX sourceTopY sourceWidth sourceHeight
-      // destTopX
-      context.drawImage(image, 0, 0, 100, 100, 0, 0, 140, 140);
+      // destTopX   destTopY   destWidth   destHeight
+      context.drawImage(
+        image,
+        columnIndex * sectionWidth - 20, // sourceTopX
+        rowIndex * sectionWidth -20, // sourceTopY
+        sectionWidth + 40, // sourceWidth
+        sectionWidth +40, // sourceHeight
+        0, // destTopX
+        0, // destTopY
+        140, // destWidth
+        140 // destHeight
+      );
     };
 
     const borderOffset = 20;
@@ -50,7 +65,6 @@ function CanvasPieceB({ index, edges }) {
       className="piece"
       width="140px" //todo how to handle size when multiple pieces locked
       height="140px"
-      key={index}
       draggable
     ></canvas>
   );
@@ -101,6 +115,10 @@ function getRandomBetween(min, max) {
   return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
+function pickRandom(array) {
+  return array[Math.floor(Math.random() * array.length)];
+}
+
 function getCurvedEdge([{ x: x1, y: y1 }, { x: x2, y: y2 }]) {
   let functionalX1, functionalY1, functionalX2, functionalY2;
   if (x1 === x2) {
@@ -145,59 +163,60 @@ function getCurvedEdge([{ x: x1, y: y1 }, { x: x2, y: y2 }]) {
 
   const neckBottomWidth = 10;
   const neckTopWidth = 6;
-  const neckCenter = getRandomBetween(40,60);
+  const neckCenter = getRandomBetween(40, 60);
 
+  const direction = pickRandom([-1,1]);
   const curve1Point1x = functionalX1; // based on straight line point 1
   const curve1Point1y = functionalY1;
   const curve1Point2x = functionalX1 + neckCenter - neckBottomWidth / 2 - 5;
-  const curve1Point2y = functionalY1 - 2;
+  const curve1Point2y = functionalY1 - (2 * direction);
   const curve1Point3x = functionalX1 + neckCenter - neckBottomWidth / 2 - 3;
-  const curve1Point3y = functionalY1 - 2;
+  const curve1Point3y = functionalY1 - (2 * direction);
   const curve1Point4x = functionalX1 + neckCenter - neckBottomWidth / 2;
   const curve1Point4y = functionalY1;
 
   const curve2Point1x = curve1Point4x; // based on ending point of previous curve
   const curve2Point1y = curve1Point4y;
   const curve2Point2x = curve1Point4x + 6;
-  const curve2Point2y = curve1Point4y + 5;
+  const curve2Point2y = curve1Point4y + (5 * direction);
   const curve2Point3x = curve1Point4x + 6;
-  const curve2Point3y = curve1Point4y + 8;
+  const curve2Point3y = curve1Point4y + (8 * direction);
   const curve2Point4x = curve1Point4x;
-  const curve2Point4y = curve1Point4y + 10;
+  const curve2Point4y = curve1Point4y + (10 * direction);
 
   const curve3Point1x = curve2Point4x; // based on ending point of previous curve
   const curve3Point1y = curve2Point4y;
   const curve3Point2x = curve2Point4x - 2;
-  const curve3Point2y = curve2Point4y + 3;
+  const curve3Point2y = curve2Point4y + (3 * direction);
   const curve3Point3x = curve2Point4x - 5;
-  const curve3Point3y = curve2Point4y + 7;
+  const curve3Point3y = curve2Point4y + (7 * direction);
   const curve3Point4x = curve2Point4x + 10;
-  const curve3Point4y = curve2Point4y + 10;
+  const curve3Point4y = curve2Point4y + (10 * direction);
 
   const curve4Point1x = curve3Point4x; // based on ending point of previous curve
   const curve4Point1y = curve3Point4y;
   const curve4Point2x = curve3Point4x + 10 + 2;
-  const curve4Point2y = curve3Point4y - 3;
+  const curve4Point2y = curve3Point4y - (3 * direction);
   const curve4Point3x = curve3Point4x + 10 + 5;
-  const curve4Point3y = curve3Point4y - 7;
+  const curve4Point3y = curve3Point4y - (7 * direction);
   const curve4Point4x = curve3Point4x + 10;
-  const curve4Point4y = curve3Point4y - 10;
+  const curve4Point4y = curve3Point4y - (10 * direction);
 
   const curve5Point1x = curve4Point4x; // based on ending point of previous curve
   const curve5Point1y = curve4Point4y;
   const curve5Point2x = curve4Point4x - 6;
-  const curve5Point2y = curve4Point4y - 5;
+  const curve5Point2y = curve4Point4y - (5 * direction);
   const curve5Point3x = curve4Point4x - 6;
-  const curve5Point3y = curve4Point4y - 8;
+  const curve5Point3y = curve4Point4y - (8 * direction);
   const curve5Point4x = curve4Point4x;
-  const curve5Point4y = curve4Point4y - 10;
+  const curve5Point4y = curve4Point4y - (10 * direction);
 
   const curve6Point1x = curve5Point4x; // based on ending point of previous curve
   const curve6Point1y = curve5Point4y;
   const curve6Point2x = curve5Point4x + 20;
-  const curve6Point2y = curve5Point4y - 2;
+  const curve6Point2y = curve5Point4y - (2 * direction);
   const curve6Point3x = curve5Point4x + 35;
-  const curve6Point3y = curve5Point4y - 2;
+  const curve6Point3y = curve5Point4y - (2 * direction);
   const curve6Point4x = functionalX2;
   const curve6Point4y = functionalY2;
 
@@ -340,106 +359,118 @@ function getEdges(numPiecesRoot) {
   ];
   const straightEdges = [top, right, bottom, left];
 
-  let calculatedEdgesByPiece = []
+  let calculatedEdgesByPiece = [];
   for (
     let pieceIndex = 0;
     pieceIndex < numPiecesRoot * numPiecesRoot;
     pieceIndex++
   ) {
-    const rowIndex = Math.floor(pieceIndex / numPiecesRoot);
-    const columnIndex = pieceIndex - rowIndex * numPiecesRoot;
-    let calculatedEdges = []
+    const { row: rowIndex, column: columnIndex } = getPieceRowCol(
+      pieceIndex,
+      numPiecesRoot
+    );
+    let calculatedEdges = [];
 
     for (let edgeIndex = 0; edgeIndex < straightEdges.length; edgeIndex++) {
       // Straight edge for:
       //   first row, top edge OR last row, bottom edge OR first column, left edge OR last column, right edge
-      if ((rowIndex === 0 && edgeIndex === 0) || (rowIndex === numPiecesRoot - 1 && edgeIndex === 2) || (columnIndex === 0 && edgeIndex === 3) || (columnIndex === numPiecesRoot - 1 && edgeIndex === 1)) {
-        calculatedEdges = [...calculatedEdges, straightEdges[edgeIndex]]
-        continue
+      if (
+        (rowIndex === 0 && edgeIndex === 0) ||
+        (rowIndex === numPiecesRoot - 1 && edgeIndex === 2) ||
+        (columnIndex === 0 && edgeIndex === 3) ||
+        (columnIndex === numPiecesRoot - 1 && edgeIndex === 1)
+      ) {
+        calculatedEdges = [...calculatedEdges, straightEdges[edgeIndex]];
+        continue;
       }
       // Inverse edge if:
       //   top edge and has neighbor above
       if (edgeIndex === 0 && rowIndex !== 0) {
-        const neighborRowIndex = rowIndex - 1
-        const neighborColumnIndex = columnIndex
-        const neighborPieceIndex = neighborColumnIndex + neighborRowIndex * numPiecesRoot;
-        const neighborEdge = calculatedEdgesByPiece[neighborPieceIndex][2] // 2 = bottom edge of neighbor piece
-        const calculatedEdge = getInverseCurvedEdge(neighborEdge, straightEdges[edgeIndex])
-        calculatedEdges = [...calculatedEdges, calculatedEdge]
-        continue
+        const neighborRowIndex = rowIndex - 1;
+        const neighborColumnIndex = columnIndex;
+        const neighborPieceIndex =
+          neighborColumnIndex + neighborRowIndex * numPiecesRoot;
+        const neighborEdge = calculatedEdgesByPiece[neighborPieceIndex][2]; // 2 = bottom edge of neighbor piece
+        const calculatedEdge = getInverseCurvedEdge(
+          neighborEdge,
+          straightEdges[edgeIndex]
+        );
+        calculatedEdges = [...calculatedEdges, calculatedEdge];
+        continue;
       }
       //   OR left edge and has neighbor to left
       if (edgeIndex === 3 && columnIndex !== 0) {
-        const neighborRowIndex = rowIndex
-        const neighborColumnIndex = columnIndex - 1
-        const neighborPieceIndex = neighborColumnIndex + neighborRowIndex * numPiecesRoot;
-        console.log(`${rowIndex}/${columnIndex} => ${neighborPieceIndex}`)
-        const neighborEdge = calculatedEdgesByPiece[neighborPieceIndex][1] // 1 = right edge of neighbor piece
-        const calculatedEdge = getInverseCurvedEdge(neighborEdge, straightEdges[edgeIndex])
-        calculatedEdges = [...calculatedEdges, calculatedEdge]
-        continue
+        const neighborRowIndex = rowIndex;
+        const neighborColumnIndex = columnIndex - 1;
+        const neighborPieceIndex =
+          neighborColumnIndex + neighborRowIndex * numPiecesRoot;
+        const neighborEdge = calculatedEdgesByPiece[neighborPieceIndex][1]; // 1 = right edge of neighbor piece
+        const calculatedEdge = getInverseCurvedEdge(
+          neighborEdge,
+          straightEdges[edgeIndex]
+        );
+        calculatedEdges = [...calculatedEdges, calculatedEdge];
+        continue;
       }
       // Otherwise, just a curved edge
-      const calculatedEdge = getCurvedEdge(straightEdges[edgeIndex])
-      calculatedEdges = [...calculatedEdges, calculatedEdge]
+      const calculatedEdge = getCurvedEdge(straightEdges[edgeIndex]);
+      calculatedEdges = [...calculatedEdges, calculatedEdge];
     }
-    calculatedEdgesByPiece = [...calculatedEdgesByPiece, calculatedEdges]
+    calculatedEdgesByPiece = [...calculatedEdgesByPiece, calculatedEdges];
   }
 
-  return calculatedEdgesByPiece
+  return calculatedEdgesByPiece;
 }
-export default function App() {
 
-  const numPiecesRoot = 4
-  const edgesByPiece = getEdges(numPiecesRoot)
-
-  let pieces = []
-  for (let index = 0; index < edgesByPiece.length; index++) {
-    const piece = <CanvasPieceB index={index} key={index} edges={edgesByPiece[index]}></CanvasPieceB>
-    pieces = [...pieces, piece]
+function getImageSections(numPiecesRoot, imageWidth) {
+  const sectionWidth = imageWidth / numPiecesRoot;
+  let imageSections = [];
+  for (
+    let pieceIndex = 0;
+    pieceIndex < numPiecesRoot * numPiecesRoot;
+    pieceIndex++
+  ) {
+    const { row: rowIndex, column: columnIndex } = getPieceRowCol(
+      pieceIndex,
+      numPiecesRoot
+    );
+    const sectionX = columnIndex * sectionWidth;
+    const sectionY = rowIndex * sectionWidth;
+    imageSections = [...imageSections, [sectionX, sectionY]];
   }
-  // for (let edges of edgesByPiece) {
-  //   const piece = <CanvasPieceB index={1} edges={edges}></CanvasPieceB>
-  //   pieces = [...pieces, piece]
-  // }
-  // const top = [
-  //   { x: 0, y: 0 },
-  //   { x: 100, y: 0 },
-  // ];
-  // const right = [
-  //   { x: 100, y: 0 },
-  //   { x: 100, y: 100 },
-  // ];
-  // const bottom = [
-  //   { x: 100, y: 100 },
-  //   { x: 0, y: 100 },
-  // ];
-  // const left = [
-  //   { x: 0, y: 100 },
-  //   { x: 0, y: 0 },
-  // ];
+  return imageSections;
+}
 
-  // const edges = [
-  //   // top,
-  //   // getCurvedEdge(top),
-  //   getInverseCurvedEdge(getCurvedEdge(bottom), top),
+function getPieceRowCol(pieceIndex, numPiecesRoot) {
+  const rowIndex = Math.floor(pieceIndex / numPiecesRoot);
+  const columnIndex = pieceIndex - rowIndex * numPiecesRoot;
+  return { row: rowIndex, column: columnIndex };
+}
 
-  //   // right,
-  //   getCurvedEdge(right),
+export default function App() {
+  const numPiecesRoot = 4;
+  const edgesByPiece = getEdges(numPiecesRoot);
+  const imageDimensionsByPiece = getImageSections(numPiecesRoot, 300);
 
-  //   // bottom,
-  //   getCurvedEdge(bottom),
+  let pieces = [];
+  for (let index = 0; index < edgesByPiece.length; index++) {
+    const { row: rowIndex, column: columnIndex } = getPieceRowCol(
+      index,
+      numPiecesRoot
+    );
 
-  //   // left,
-  //   // getCurvedEdge(left),
-  //   getInverseCurvedEdge(getCurvedEdge(right), left),
-  // ];
+    const piece = (
+      <CanvasPieceB
+        index={index}
+        key={index}
+        edges={edgesByPiece[index]}
+        rowIndex={rowIndex}
+        columnIndex={columnIndex}
+        numPiecesRoot={numPiecesRoot}
+      ></CanvasPieceB>
+    );
+    pieces = [...pieces, piece];
+  }
 
-  return (
-    <div id="pool">
-      {pieces}
-      {/* <CanvasPieceB index={1} edges={edges}></CanvasPieceB>
-      <CanvasPieceB index={2} edges={edges}></CanvasPieceB> */}
-    </div>
-  );
+  return <div id="pool">{pieces}</div>;
 }
