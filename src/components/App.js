@@ -14,16 +14,16 @@ function CanvasPieceB({ index, edges, rowIndex, columnIndex, numPiecesRoot }) {
       // console.log(image.width)
       const imageWidth = image.width;
       const sectionWidth = imageWidth / numPiecesRoot;
-      console.log(sectionWidth)
+      console.log(sectionWidth);
       // console.log(columnIndex * sectionWidth);
       // sourceTopX sourceTopY sourceWidth sourceHeight
       // destTopX   destTopY   destWidth   destHeight
       context.drawImage(
         image,
-        columnIndex * sectionWidth - 20, // sourceTopX
-        rowIndex * sectionWidth -20, // sourceTopY
-        sectionWidth + 40, // sourceWidth
-        sectionWidth +40, // sourceHeight
+        columnIndex * sectionWidth - sectionWidth / 5, // sourceTopX
+        rowIndex * sectionWidth - sectionWidth / 5, // sourceTopY
+        sectionWidth + sectionWidth * 0.4, // sourceWidth
+        sectionWidth + sectionWidth * 0.4, // sourceHeight
         0, // destTopX
         0, // destTopY
         140, // destWidth
@@ -165,58 +165,58 @@ function getCurvedEdge([{ x: x1, y: y1 }, { x: x2, y: y2 }]) {
   const neckTopWidth = 6;
   const neckCenter = getRandomBetween(40, 60);
 
-  const direction = pickRandom([-1,1]);
+  const direction = pickRandom([-1, 1]);
   const curve1Point1x = functionalX1; // based on straight line point 1
   const curve1Point1y = functionalY1;
   const curve1Point2x = functionalX1 + neckCenter - neckBottomWidth / 2 - 5;
-  const curve1Point2y = functionalY1 - (2 * direction);
+  const curve1Point2y = functionalY1 - 2 * direction;
   const curve1Point3x = functionalX1 + neckCenter - neckBottomWidth / 2 - 3;
-  const curve1Point3y = functionalY1 - (2 * direction);
+  const curve1Point3y = functionalY1 - 2 * direction;
   const curve1Point4x = functionalX1 + neckCenter - neckBottomWidth / 2;
   const curve1Point4y = functionalY1;
 
   const curve2Point1x = curve1Point4x; // based on ending point of previous curve
   const curve2Point1y = curve1Point4y;
   const curve2Point2x = curve1Point4x + 6;
-  const curve2Point2y = curve1Point4y + (5 * direction);
+  const curve2Point2y = curve1Point4y + 5 * direction;
   const curve2Point3x = curve1Point4x + 6;
-  const curve2Point3y = curve1Point4y + (8 * direction);
+  const curve2Point3y = curve1Point4y + 8 * direction;
   const curve2Point4x = curve1Point4x;
-  const curve2Point4y = curve1Point4y + (10 * direction);
+  const curve2Point4y = curve1Point4y + 10 * direction;
 
   const curve3Point1x = curve2Point4x; // based on ending point of previous curve
   const curve3Point1y = curve2Point4y;
   const curve3Point2x = curve2Point4x - 2;
-  const curve3Point2y = curve2Point4y + (3 * direction);
+  const curve3Point2y = curve2Point4y + 3 * direction;
   const curve3Point3x = curve2Point4x - 5;
-  const curve3Point3y = curve2Point4y + (7 * direction);
+  const curve3Point3y = curve2Point4y + 7 * direction;
   const curve3Point4x = curve2Point4x + 10;
-  const curve3Point4y = curve2Point4y + (10 * direction);
+  const curve3Point4y = curve2Point4y + 10 * direction;
 
   const curve4Point1x = curve3Point4x; // based on ending point of previous curve
   const curve4Point1y = curve3Point4y;
   const curve4Point2x = curve3Point4x + 10 + 2;
-  const curve4Point2y = curve3Point4y - (3 * direction);
+  const curve4Point2y = curve3Point4y - 3 * direction;
   const curve4Point3x = curve3Point4x + 10 + 5;
-  const curve4Point3y = curve3Point4y - (7 * direction);
+  const curve4Point3y = curve3Point4y - 7 * direction;
   const curve4Point4x = curve3Point4x + 10;
-  const curve4Point4y = curve3Point4y - (10 * direction);
+  const curve4Point4y = curve3Point4y - 10 * direction;
 
   const curve5Point1x = curve4Point4x; // based on ending point of previous curve
   const curve5Point1y = curve4Point4y;
   const curve5Point2x = curve4Point4x - 6;
-  const curve5Point2y = curve4Point4y - (5 * direction);
+  const curve5Point2y = curve4Point4y - 5 * direction;
   const curve5Point3x = curve4Point4x - 6;
-  const curve5Point3y = curve4Point4y - (8 * direction);
+  const curve5Point3y = curve4Point4y - 8 * direction;
   const curve5Point4x = curve4Point4x;
-  const curve5Point4y = curve4Point4y - (10 * direction);
+  const curve5Point4y = curve4Point4y - 10 * direction;
 
   const curve6Point1x = curve5Point4x; // based on ending point of previous curve
   const curve6Point1y = curve5Point4y;
   const curve6Point2x = curve5Point4x + 20;
-  const curve6Point2y = curve5Point4y - (2 * direction);
+  const curve6Point2y = curve5Point4y - 2 * direction;
   const curve6Point3x = curve5Point4x + 35;
-  const curve6Point3y = curve5Point4y - (2 * direction);
+  const curve6Point3y = curve5Point4y - 2 * direction;
   const curve6Point4x = functionalX2;
   const curve6Point4y = functionalY2;
 
