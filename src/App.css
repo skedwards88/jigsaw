@@ -1,7 +1,5 @@
-/* General */
 html {
   height: 100vh;
-  background-color: black;
 }
 
 body {
@@ -9,22 +7,54 @@ body {
 }
 
 .App {
-  --box-size: min(8vw, 5.5vh);
-  --default-font-size: calc(var(--box-size) * 0.9);
-  --dark-color: rgb(55 54 71);
-  --light-color: rgb(239 239 239);
-
-  background-color: var(--dark-color);
-  color: var(--light-color);
-  font-family: sans-serif;
-  font-size: var(--default-font-size);
-  display: grid;
+  --background-color: rgb(55 54 71);
+  background-color: var(--background-color);
   min-height: 100vh;
   min-width: 100vw;
   overflow: scroll;
+
+  display: grid;
+  grid-template-areas:
+    "controls"
+    "board"
+    "pool";
+  grid-template-rows:
+    auto
+    1fr
+    auto;
 }
 
-.piece {
+button {
+  all: unset;
+}
+
+#pool {
+  grid-area: pool;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: auto;
+  flex-direction: row;
+  align-items: center;
+  border-top: 2px solid white;
+
+}
+
+#pool::-webkit-scrollbar {
+  -webkit-appearance: none;
+  height: 1vh;
+  background-color: lightgray;
+  border-radius: 5px;
+}
+
+#pool::-webkit-scrollbar-thumb {
+  background: rgb(127, 125, 125);
+  border-radius: 5px;
+}
+
+#pool .piece {
   /* position: absolute;
   top: var(--x);
   left: var(--y); */
@@ -32,13 +62,48 @@ body {
   /* border: 1px solid white; */
 }
 
-#pool {
-  width: 90vw;
-  height: 50vh;
+#board {
+  grid-area: board;
+  touch-action: none;
+  justify-content: center;
+  width: 100vw;
+  justify-self: center;
+}
+
+#controls {
   display: flex;
-  /* overflow-x: scroll; */
-  /* overflow-y: hidden; */
-  flex-direction: row;
-  border: 5px solid gray;
-  flex-wrap: wrap;
+  justify-content: space-evenly;
+  align-items: center;
+  grid-area: controls;
+  width: 100%;
+  height: 5vh;
+  border-bottom: 2px solid white;
+}
+
+#controls > button {
+  margin: 10px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  border: 0;
+  width: 5vw;
+  height: 5vh;
+  background-color: transparent;
+  padding: 1px 6px;
+}
+
+#settingsButton {
+  background-image: url("./images/icons/settings.svg");
+}
+
+#newGameButton {
+  background-image: url("./images/icons/new_game.svg");
+}
+
+#heartButton {
+  background-image: url("./images/icons/heart.svg");
+}
+
+#installButton {
+  background-image: url("./images/icons/install.svg");
 }
