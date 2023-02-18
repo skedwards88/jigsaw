@@ -1,11 +1,9 @@
 import React from "react";
 import getPieceRowCol from "../logic/getPieceColRow";
-import getEdges from "../logic/getEdges";
 import JigsawPiece from "./JigsawPiece";
 
-export default function Pool() {
-  const numPiecesRoot = 8;
-  const edgesByPiece = getEdges(numPiecesRoot);
+export default function Pool({edgesByPiece}) {
+  const numPiecesRoot = Math.sqrt(edgesByPiece.length);
 
   let pieces = [];
   for (let index = 0; index < edgesByPiece.length; index++) {

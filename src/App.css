@@ -59,7 +59,6 @@ button {
   top: var(--x);
   left: var(--y); */
   height: 10vh;
-  /* border: 1px solid white; */
 }
 
 #board {

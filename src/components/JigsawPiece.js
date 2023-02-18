@@ -1,10 +1,10 @@
-import React, { useRef, useLayoutEffect } from "react";
+import React from "react";
 import puzzleImage from "./monkeys.png"
 
 export default function JigsawPiece({ index, edges, rowIndex, columnIndex, numPiecesRoot }) {
-  const canvasRef = useRef(null);
+  const canvasRef = React.useRef(null);
 
-  useLayoutEffect(() => {
+  React.useLayoutEffect(() => {
     const canvas = canvasRef.current;
     const context = canvas.getContext("2d");
 
