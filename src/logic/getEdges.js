@@ -1,4 +1,3 @@
-
 import getInverseCurvedEdge from "./getInverseCurvedEdge";
 import getCurvedEdge from "./getCurvedEdge";
 import getPieceRowCol from "./getPieceColRow";

@@ -51,8 +51,8 @@ export default function getCurvedEdge([{ x: x1, y: y1 }, { x: x2, y: y2 }]) {
   const minNeckCenter = 40;
   const maxNeckCenter = 60;
   const neckCenter = getRandomBetween(minNeckCenter, maxNeckCenter);
-  
-  const minShoulderHeight = -3
+
+  const minShoulderHeight = -3;
   const maxShoulderHeight = 3;
   const shoulderHeight = getRandomBetween(minShoulderHeight, maxShoulderHeight);
 
@@ -68,11 +68,11 @@ export default function getCurvedEdge([{ x: x1, y: y1 }, { x: x2, y: y2 }]) {
   // The main variation is how far to the center the shoulder stretches.
   const curve1Point1x = functionalX1; // based on straight line point 1
   const curve1Point1y = functionalY1; // based on straight line point 1
-  const curve1Point2x = functionalX1 + (neckCenter - (neckBottomWidth / 2)) * .5;
+  const curve1Point2x = functionalX1 + (neckCenter - neckBottomWidth / 2) * 0.5;
   const curve1Point2y = functionalY1 - shoulderHeight;
-  const curve1Point3x = functionalX1 + (neckCenter - (neckBottomWidth / 2)) * .5;
+  const curve1Point3x = functionalX1 + (neckCenter - neckBottomWidth / 2) * 0.5;
   const curve1Point3y = functionalY1 - shoulderHeight;
-  const curve1Point4x = functionalX1 + neckCenter - (neckBottomWidth / 2);
+  const curve1Point4x = functionalX1 + neckCenter - neckBottomWidth / 2;
   const curve1Point4y = functionalY1;
 
   const curve2Point1x = curve1Point4x; // based on ending point of previous curve
@@ -114,9 +114,9 @@ export default function getCurvedEdge([{ x: x1, y: y1 }, { x: x2, y: y2 }]) {
 
   const curve6Point1x = curve5Point4x; // based on ending point of previous curve
   const curve6Point1y = curve5Point4y; // based on ending point of previous curve
-  const curve6Point2x = curve5Point4x + (functionalX2 - curve5Point4x) * .5;
+  const curve6Point2x = curve5Point4x + (functionalX2 - curve5Point4x) * 0.5;
   const curve6Point2y = curve5Point4y - shoulderHeight;
-  const curve6Point3x = curve5Point4x + (functionalX2 - curve5Point4x) * .5;
+  const curve6Point3x = curve5Point4x + (functionalX2 - curve5Point4x) * 0.5;
   const curve6Point3y = curve5Point4y - shoulderHeight;
   const curve6Point4x = functionalX2; // based on the ending point of the straight line
   const curve6Point4y = functionalY2; // based on the ending point of the straight line

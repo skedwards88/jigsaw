@@ -1,29 +1,62 @@
 import React from "react";
-import getPieceRowCol from "../logic/getPieceColRow";
-import JigsawPiece from "./JigsawPiece";
+import JigsawPoolPiece from "./JigsawPoolPiece";
 
-export default function Pool({edgesByPiece}) {
-  const numPiecesRoot = Math.sqrt(edgesByPiece.length);
+function dropOnPool({ event, dispatchGameState, targetPoolIndex }) {
+  // When you drop on the pool,
+  // you either drop on an existing piece or on an empty section of the pool.
+  // Stop propagation so that this handler doesn't execute twice
+  // when you drop on an existing piece.
+  event.stopPropagation();
 
+  event.preventDefault();
+
+  // Determine where we dragged from (pool or board)
+  const dragArea = event.dataTransfer.getData("dragArea");
+
+  // Only one of these sets will be defined (todo should I simplify?)
+  const draggedPoolIndex = event.dataTransfer.getData("draggedPoolIndex");
+  const boardGroupIndex = event.dataTransfer.getData("boardGroupIndex");
+
+  dispatchGameState({
+    action: "dropOnPool",
+    dragArea: dragArea,
+    draggedPoolIndex: draggedPoolIndex,
+    boardGroupIndex: boardGroupIndex,
+    targetPoolIndex: targetPoolIndex, // will be undefined if dropping on empty section of pool
+  });
+}
+
+export default function Pool({ numPiecesRoot, pool, dispatchGameState }) {
   let pieces = [];
-  for (let index = 0; index < edgesByPiece.length; index++) {
-    const { row: rowIndex, column: columnIndex } = getPieceRowCol(
-      index,
-      numPiecesRoot
-    );
-
+  for (let poolIndex = 0; poolIndex < pool.length; poolIndex++) {
     const piece = (
-      <JigsawPiece
-        index={index}
-        key={index}
-        edges={edgesByPiece[index]}
-        rowIndex={rowIndex}
-        columnIndex={columnIndex}
+      <JigsawPoolPiece
+        pieceIndex={pool[poolIndex].pieceIndex}
+        poolIndex={poolIndex}
+        key={pool[poolIndex].pieceIndex}
+        edges={pool[poolIndex].edges}
         numPiecesRoot={numPiecesRoot}
-      ></JigsawPiece>
+        dispatchGameState={dispatchGameState}
+        dropOnPool={dropOnPool}
+        area="pool"
+      ></JigsawPoolPiece>
     );
     pieces = [...pieces, piece];
   }
 
-  return <div id="pool">{pieces}</div>;
+  return (
+    <div
+      id="pool"
+      onDrop={(event) =>
+        dropOnPool({
+          event: event,
+          dispatchGameState: dispatchGameState,
+          targetPoolIndex: undefined, // explicitly set to undefined since we aren't dropping on a piece in the pool
+        })
+      }
+      onDragOver={(event) => event.preventDefault()}
+    >
+      {pieces}
+    </div>
+  );
 }
