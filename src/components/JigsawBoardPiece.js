@@ -1,5 +1,10 @@
 import React from "react";
 import { drawPiece } from "../logic/drawPiece";
+import { polyfill } from "mobile-drag-drop";
+
+polyfill({
+  dragImageCenterOnTouch: true,
+});
 
 function dragPiece({
   event,
@@ -46,6 +51,10 @@ export default function JigsawBoardPiece({
       height="140px"
       draggable
       style={{ top: y, left: x }}
+      onDragEnter={(event) => {
+        // required for mobile-drag-drop
+        event.preventDefault();
+      }}
       onDragStart={(event) =>
         dragPiece({
           event: event,

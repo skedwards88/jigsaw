@@ -47,6 +47,10 @@ export default function Pool({ numPiecesRoot, pool, dispatchGameState }) {
   return (
     <div
       id="pool"
+      onDragEnter={(event) => {
+        // required for mobile-drag-drop
+        event.preventDefault();
+      }}
       onDrop={(event) =>
         dropOnPool({
           event: event,

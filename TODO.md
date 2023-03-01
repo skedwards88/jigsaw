@@ -10,8 +10,6 @@
 
 what's next:
 
-- make drag work on touch screen
-- center piece on cursor when dragging
 - when drop, account for offset from center so that piece doesn't jump
 - figure out how to drag a board group as a group. maybe the x/y should apply to the group as a whole?
 
@@ -19,3 +17,5 @@ what's next:
 
 - rotation of pieces
 - better piece shape
+- can I make the original image disappear while dragging?
+- make the drag image match the size of the pieces on the board

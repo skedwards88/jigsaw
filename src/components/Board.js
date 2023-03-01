@@ -77,6 +77,10 @@ export default function Board({
   return (
     <div
       id="board"
+      // required for mobile-drag-drop
+      onDragEnter={(event) => {
+        event.preventDefault();
+      }}
       onDragOver={(event) => event.preventDefault()}
       onDrop={(event) =>
         dropOnBoard({ event: event, dispatchGameState: dispatchGameState })

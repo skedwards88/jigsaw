@@ -1,5 +1,10 @@
 import React from "react";
 import { drawPiece } from "../logic/drawPiece";
+import { polyfill } from "mobile-drag-drop";
+
+polyfill({
+  dragImageCenterOnTouch: true,
+});
 
 function dragPiece({ event, dragArea, poolIndex }) {
   event.dataTransfer.setData("draggedPoolIndex", `${poolIndex}`); // touch screen sets 0 as undefined, so convert to string
@@ -35,6 +40,10 @@ export default function JigsawPoolPiece({
       width="140px"
       height="140px"
       draggable
+      onDragEnter={(event) => {
+        // required for mobile-drag-drop
+        event.preventDefault();
+      }}
       onDragStart={(event) =>
         dragPiece({
           event: event,
