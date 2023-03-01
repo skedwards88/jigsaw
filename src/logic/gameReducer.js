@@ -92,20 +92,63 @@ export function gameReducer(currentGameState, payload) {
       boardGroups: newBoard,
       pool: newPool,
     };
-  } else if (payload.action === "dropOnBoard") {
+  } // drop on board from pool
+  else if (
+    payload.action === "dropOnBoard" &&
+    payload.dragArea === "pool" && //todo don't need this and the next since they indicate the same thing
+    payload.draggedPoolIndex !== undefined
+  ) {
     console.log("reducer: drop on board");
-    return { ...currentGameState };
+
+    const dropX = payload.dropX;
+    const dropY = payload.dropY;
+
+    const oldPool = JSON.parse(JSON.stringify(currentGameState.pool));
+    const oldBoard = JSON.parse(JSON.stringify(currentGameState.boardGroups));
+
+    const draggedPoolIndex = parseInt(payload.draggedPoolIndex);
+    const draggedPiece = oldPool[draggedPoolIndex];
+
+    // remove the dragged piece from the pool
+    const newPool = [
+      ...oldPool.slice(0, draggedPoolIndex),
+      ...oldPool.slice(draggedPoolIndex + 1, oldPool.length),
+    ];
+
+    // add the dragged piece to the board
+    // todo later handle connectivity
+    const newBoard = [...oldBoard, [{ ...draggedPiece, x: dropX, y: dropY }]];
+
+    // todo later handle rotation
+    return { ...currentGameState, pool: newPool, boardGroups: newBoard };
+  } // drop on board from board
+  else if (
+    payload.action === "dropOnBoard" &&
+    payload.dragArea === "board" && //todo don't need this and the next since they indicate the same thing
+    payload.boardGroupIndex !== undefined
+  ) {
+    console.log("reducer: drop on board");
+
+    const dropX = payload.dropX;
+    const dropY = payload.dropY;
+
+    const newBoard = JSON.parse(JSON.stringify(currentGameState.boardGroups));
+    const boardGroupIndex = parseInt(payload.boardGroupIndex);
+    const boardGroupSubIndex = parseInt(payload.boardGroupSubIndex);
+    newBoard[boardGroupIndex][boardGroupSubIndex].x = dropX;
+    newBoard[boardGroupIndex][boardGroupSubIndex].y = dropY;
+
+    // add the dragged piece to the board
+    // todo later handle connectivity
+
+    // todo later handle rotation
+    return { ...currentGameState, boardGroups: newBoard };
   }
   console.log(`reducer: unhandled`);
 
   return { ...currentGameState };
 
-  // pool
-  // [{edges, index, rotation}, ...]
-
-  // board groups
-  // initially, each piece is in its own group
-  // [{3:{edges, index, x, y, rotation}...}, ...]
+  // todo when drop from board to pool, should clear x/y
 
   // drop on board from board
   // figure out which board group the piece belongs to (requires inefficient lookup unless this data is passed along or unless board group is a key in the dict instead of a grouping in list)

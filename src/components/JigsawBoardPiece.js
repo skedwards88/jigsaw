@@ -18,8 +18,11 @@ export default function JigsawBoardPiece({
   boardGroupIndex,
   boardGroupSubIndex,
   edges,
+  x,
+  y,
   numPiecesRoot,
   dispatchGameState,
+  dropOnBoard,
   area,
 }) {
   const canvasRef = React.useRef(null);
@@ -42,20 +45,22 @@ export default function JigsawBoardPiece({
       width="140px"
       height="140px"
       draggable
+      style={{ top: y, left: x }}
       onDragStart={(event) =>
         dragPiece({
           event: event,
           pieceIndex: pieceIndex,
           boardGroupIndex: boardGroupIndex,
-          boardGroupSubIndex: boardGroupSubIndex,
+          boardGroupSubIndex: boardGroupSubIndex, //todo delete if unused
           dragArea: area,
         })
       }
       onDrop={(event) =>
-        dropOnPool({
+        dropOnBoard({
           event: event,
           dispatchGameState: dispatchGameState,
-          targetPoolIndex: poolIndex,
+          boardGroupIndex: boardGroupIndex,
+          boardGroupSubIndex: boardGroupSubIndex, //todo delete if unused
         })
       }
       onDragOver={(event) => event.preventDefault()}
