@@ -47,6 +47,7 @@ export default function Board({
     boardGroupIndex < boardGroups.length;
     boardGroupIndex++
   ) {
+    const pieces = boardGroups[boardGroupIndex];
     let piecesRendered = [];
     for (
       let subGroupIndex = 0;
@@ -67,6 +68,7 @@ export default function Board({
           dispatchGameState={dispatchGameState}
           dropOnBoard={dropOnBoard}
           area="board"
+          pieces={pieces}
         ></JigsawBoardPiece>
       );
       piecesRendered = [...piecesRendered, piece];

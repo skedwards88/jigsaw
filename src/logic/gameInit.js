@@ -17,10 +17,10 @@ export function gameInit({ numPiecesRoot }) {
     edgesByPiece: edgesByPiece,
     pool: pool.slice(3, 6), // todo remove the slice
     boardGroups: [
-      [{ ...pool[0], x: 100, y: 100 }],
+      [{ ...pool[0], x: 50, y: 50 }],
       [
-        { ...pool[1], x: 200, y: 200 },
-        { ...pool[2], x: 250, y: 250 },
+        { ...pool[1], x: 150, y: 200 },
+        { ...pool[2], x: 250, y: 350 },
       ],
     ],
   };

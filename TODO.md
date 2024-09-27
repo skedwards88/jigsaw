@@ -7,7 +7,6 @@
 - allow to choose image
 - save puzzle progress
 
-
 what's next:
 
 - when drop, account for offset from center so that piece doesn't jump
@@ -19,3 +18,7 @@ what's next:
 - better piece shape
 - can I make the original image disappear while dragging?
 - make the drag image match the size of the pieces on the board
+
+
+- when drag piece, abort the drag if i didn't click within the piece. if I can't do that, look into using mouse/touch events instead of dragging api.
+- when drag piece, hide the original piece
